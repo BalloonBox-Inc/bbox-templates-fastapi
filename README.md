@@ -14,7 +14,8 @@ This GitHub repo contains the template to initiate a project using FastAPI and H
 Run the command:
 
 ```
-git repo fork https://github.com/BalloonBox-Inc/bbox-templates-fastapi-heroku.git -- clone
+git clone https://github.com/BalloonBox-Inc/bbox-templates-fastapi-heroku.git
+
 ```
 
 ### Requirements
