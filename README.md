@@ -6,6 +6,7 @@ This GitHub repo contains the template to initiate a project using FastAPI and H
 
 - create your project repo
 - clone the repo into it
+- create a virtual environvent
 - install dependencies
 - set up environment variables
 - start building your own project
@@ -26,9 +27,11 @@ Delete bbox-templates-fastapi-heroku folder from your project.
 
 ### Requirements
 
-Run the following command to install dependencies:
+Run the following commands to create virtual environment and install dependencies:
 
 ```
+python -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
 ```
 
