@@ -31,5 +31,5 @@ Create a `.env` file with the following:
 
 ```
 ADMIN_TOKEN = your_admin_token
-BD_URI = your_database_uri
+DATABASE_URI = your_database_uri
 ```
