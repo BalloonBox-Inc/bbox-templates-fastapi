@@ -1,18 +1,25 @@
-from fastapi import Header, HTTPException, status
-from helpers.support_files import read_env_vars
+from fastapi import Depends, HTTPException, status
+from support.hashing import verify_password
+from support.oauth2 import get_current_user
+from support import crud, schemas
 
 
-async def verify_admin_token(admin_token: str = Header()):
-    if admin_token != read_env_vars('ADMIN_TOKEN'):
+async def authenticate_user(db, email, password):
+    user = crud.get_user_by_email(db, email=email)
+    if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail='Invalid admin token'
-        )
-
-
-async def verify_user_token(user_token: str = Header()):
-    if user_token != 'fake-super-secret-token':
+            detail='Invalid email')
+    if not verify_password(password, user.hashed_password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail='Invalid user token'
-        )
+            detail='Invalid password')
+    return user
+
+
+async def get_current_active_user(current_user: schemas.UserBase = Depends(get_current_user)):
+    if current_user.is_active:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail='Inactive user')
+    return current_user
