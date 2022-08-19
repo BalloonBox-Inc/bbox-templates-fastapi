@@ -1,6 +1,6 @@
 ## This Repo
 
-This GitHub repo contains the template to initiate a project using FastAPI and Heroku with the use of an external database.
+This GitHub repo contains the template to initiate a project using FastAPI and Heroku with the use of external database and JWT security.
 
 ## How to use
 
