@@ -25,7 +25,7 @@ async def example_admin(request: Request, item: schemas.AdminBase, form_data: OA
 
     print(f'\033[35;1m Request received from: {request.client.host}\033[0m')
 
-    user = authenticate_user(fake_users_db, form_data.email, form_data.password)
+    user = authenticate_user(item.__dict__, form_data.email, form_data.password)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
