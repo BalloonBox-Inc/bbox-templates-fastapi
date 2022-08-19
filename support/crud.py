@@ -2,6 +2,10 @@ from sqlalchemy.orm import Session
 from support import models
 
 
+def get_user_by_email(db: Session, email: str):
+    return db.query(models.UserTable).filter(models.UserTable.email == email).first()
+
+
 # fetch row by column value
 def get_row_by_column(db: Session, value: str):
     return db.query(models.UserTable).filter(models.UserTable.email == value).first()
