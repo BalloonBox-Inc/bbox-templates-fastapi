@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from support.database import get_db
 from support.dependencies import verify_user_token
 from support.schemas import UserBase
-from support import crud
+from support import crud, models
 
 
 router = APIRouter(
@@ -27,11 +27,23 @@ async def example_router(request: Request, response: Response, item: UserBase, d
 
     print(f'\033[35;1m Request received from: {request.client.host}\033[0m')
 
-    user = crud.get_user_by_email(db, email=item.email)
+    # get user by email
+    user = crud.get_row_by_column(db, value=item.email)
     if user:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail='Email already registered'
         )
 
-    return crud.create_user(db=db, user=item.email)
+    # update user
+    user.password = 'password'
+    crud.update_row(db, obj=user)
+
+    # add user
+    crud.add_row(
+        db, models.UserTable(
+            email = 'email@example.com',
+            hashed_password = 'encrypted_password',
+            is_active = True))
+
+    return {'error': False}
