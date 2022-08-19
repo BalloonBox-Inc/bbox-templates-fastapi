@@ -40,7 +40,11 @@ pip install -r requirements.txt
 Create a `.env` file with the following:
 
 ```
-ADMIN_TOKEN = your_admin_token
+# Database
 DATABASE_URI = your_database_uri
-SECRET_KEY = your_secret_key
+
+# Security
+ACCESS_TOKEN_EXPIRE_MINUTES = time_in_minutes
+ALGORITHM = hashing_algorithm
+SECRET_KEY = your_secret_key (run the following command to generate key: openssl rand -hex 512)
 ```
