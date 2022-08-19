@@ -11,10 +11,10 @@ JWT_ALGORITHM = read_env_vars('JWT_ALGORITHM')
 OAUTH2_SCHEME = OAuth2PasswordBearer(tokenUrl='/admin/login')
 
 
-def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
+def create_access_token(data: dict, expires_delta: Optional[int] = None):
 
     if expires_delta:
-        expire = datetime.utcnow() + timedelta(minutes=int(expires_delta))
+        expire = datetime.utcnow() + timedelta(minutes=expires_delta)
     else:
         expire = datetime.utcnow() + timedelta(minutes=15)
 
