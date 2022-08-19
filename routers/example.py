@@ -2,8 +2,7 @@ from fastapi import APIRouter, Depends, Request, HTTPException, status
 from sqlalchemy.orm import Session
 from support.database import get_db
 from support.dependencies import get_current_active_user
-from support.schemas import UserBase
-from support import crud, models
+from support import crud, models, schemas
 
 
 router = APIRouter(
@@ -12,7 +11,7 @@ router = APIRouter(
 
 
 @router.post('/', status_code=status.HTTP_200_OK, summary='Example router')
-async def example_router(request: Request, item: UserBase = Depends(get_current_active_user), db: Session = Depends(get_db)):
+async def example_router(request: Request, item: schemas.UserBase = Depends(get_current_active_user), db: Session = Depends(get_db)):
     '''
     Description
 
