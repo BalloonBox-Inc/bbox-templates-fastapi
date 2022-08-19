@@ -1,14 +1,12 @@
 from pydantic import BaseModel
-from typing import Optional
 
 
-# http request classes
-class AdminBase(BaseModel):
-    id: str
-    email: str
+class Token(BaseModel):
+    access_token: str
+    token_type: str
 
 
 class UserBase(BaseModel):
-    id: str
+    username: str
     email: str
     password: str
