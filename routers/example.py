@@ -42,8 +42,8 @@ async def example_router(request: Request, response: Response, item: UserBase, d
     # add user
     crud.add_row(
         db, models.UserTable(
-            email = 'email@example.com',
-            hashed_password = 'encrypted_password',
-            is_active = True))
+            email='email@example.com',
+            hashed_password='encrypted_password',
+            is_active=True))
 
     return {'error': False}
