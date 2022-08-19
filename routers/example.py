@@ -1,20 +1,19 @@
-from fastapi import APIRouter, Depends, Request, Response, HTTPException, status
+from fastapi import APIRouter, Depends, Request, HTTPException, status
 from sqlalchemy.orm import Session
 from support.database import get_db
-from support.dependencies import verify_user_token
+from support.dependencies import get_current_active_user
 from support.schemas import UserBase
 from support import crud, models
 
 
 router = APIRouter(
     prefix='/example',
-    tags=['Example'],
-    dependencies=[Depends(verify_user_token)]
+    tags=['Example']
 )
 
 
 @router.post('/', status_code=status.HTTP_200_OK, summary='Example router')
-async def example_router(request: Request, response: Response, item: UserBase, db: Session = Depends(get_db)):
+async def example_router(request: Request, item: UserBase = Depends(get_current_active_user), db: Session = Depends(get_db)):
     '''
     Description
 
@@ -28,12 +27,11 @@ async def example_router(request: Request, response: Response, item: UserBase, d
     print(f'\033[35;1m Request received from: {request.client.host}\033[0m')
 
     # get user by email
-    user = crud.get_row_by_column(db, value=item.email)
+    user = crud.get_user_by_email(db, email=item.email)
     if user:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
-            detail='Email already registered'
-        )
+            detail='Email already registered')
 
     # update user
     user.password = 'password'
