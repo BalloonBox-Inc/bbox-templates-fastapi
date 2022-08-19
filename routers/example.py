@@ -8,8 +8,7 @@ from support import crud, models
 
 router = APIRouter(
     prefix='/example',
-    tags=['Example']
-)
+    tags=['Example'])
 
 
 @router.post('/', status_code=status.HTTP_200_OK, summary='Example router')
