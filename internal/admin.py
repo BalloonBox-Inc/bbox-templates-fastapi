@@ -1,17 +1,18 @@
-from fastapi import APIRouter, Depends, Request, Response, HTTPException, status
-from support.dependencies import verify_admin_token
-from support.schemas import AdminBase
+from fastapi import APIRouter, Depends, Request, HTTPException, status
+from fastapi.security import OAuth2PasswordRequestForm
+from support.oauth2 import create_access_token
+from support.dependencies import authenticate_user
+from helpers.support_files import read_env_vars
+from support import schemas
 
 
 router = APIRouter(
     prefix='/admin',
-    tags=['Admin'],
-    dependencies=[Depends(verify_admin_token)]
-)
+    tags=['Admin'])
 
 
 @router.post('/', status_code=status.HTTP_200_OK, summary='Example admin')
-async def example_admin(request: Request, response: Response, item: AdminBase):
+async def example_admin(request: Request, item: schemas.AdminBase, form_data: OAuth2PasswordRequestForm = Depends()):
     '''
     Description
 
@@ -24,21 +25,14 @@ async def example_admin(request: Request, response: Response, item: AdminBase):
 
     print(f'\033[35;1m Request received from: {request.client.host}\033[0m')
 
-    try:
-        if item.id == 'admin':
-            return {
-                'error': False,
-                'data': 'Example succeeded'
-            }
-
-        else:
-            return {
-                'error': False,
-                'data': 'Example failed'
-            }
-
-    except Exception as error:
+    user = authenticate_user(fake_users_db, form_data.email, form_data.password)
+    if not user:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail=error
-        )
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail='Incorrect email or password',
+            headers={'WWW-Authenticate': 'Bearer'})
+
+    access_token = create_access_token(
+        data={'sub': user.username}, expires_delta=read_env_vars('ACCESS_TOKEN_EXPIRE_MINUTES'))
+
+    return {'access_token': access_token, 'token_type': 'bearer'}
