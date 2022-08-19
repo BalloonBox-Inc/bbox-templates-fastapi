@@ -4,12 +4,12 @@ from support import models
 
 # fetch row by column value
 def get_row_by_column(db: Session, value: str):
-    return db.query(models.UserTable).filter(models.UserTable.id == value).first()
+    return db.query(models.UserTable).filter(models.UserTable.email == value).first()
 
 
 # fetch row where column is empty
 def get_row_by_column_null(db: Session):
-    return db.query(models.UserTable).filter(models.UserTable.id == None).order_by(models.UserTable.id.asc()).first()
+    return db.query(models.UserTable).filter(models.UserTable.email == None).order_by(models.UserTable.email.asc()).first()
 
 
 # add new row
