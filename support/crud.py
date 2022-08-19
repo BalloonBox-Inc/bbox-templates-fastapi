@@ -1,15 +1,26 @@
 from sqlalchemy.orm import Session
-from support import models, schemas
+from support import models
 
 
-def get_user_by_email(db: Session, email: str):
-    return db.query(models.UserTable).filter(models.UserTable.email == email).first()
+# fetch row by column value
+def get_row_by_column(db: Session, value: str):
+    return db.query(models.UserTable).filter(models.UserTable.id == value).first()
 
 
-def create_user(db: Session, user: schemas.UserCreate):
-    fake_hashed_password = user.password + "notreallyhashed"
-    db_user = models.UserTable(email=user.email, hashed_password=fake_hashed_password)
-    db.add(db_user)
+# fetch row where column is empty
+def get_row_by_column_null(db: Session):
+    return db.query(models.UserTable).filter(models.UserTable.id == None).order_by(models.UserTable.id.asc()).first()
+
+
+# add new row
+def add_row(db: Session, obj: models.UserTable):
+    db.add(obj)
     db.commit()
-    db.refresh(db_user)
-    return db_user
+    return
+
+
+# update existent row
+def update_row(db: Session, obj: models.UserTable):
+    db.flush()
+    db.commit()
+    return
