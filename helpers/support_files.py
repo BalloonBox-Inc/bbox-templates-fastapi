@@ -1,6 +1,13 @@
 from os.path import dirname, join
 from pandas import read_csv
 from json import load
+from dotenv import load_dotenv
+from os import getenv
+load_dotenv()
+
+
+def read_env_vars(var):
+    return getenv(var)
 
 
 def get_root():
