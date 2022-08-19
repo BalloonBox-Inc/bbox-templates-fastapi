@@ -1,11 +1,9 @@
 from fastapi import Header, HTTPException, status
-from dotenv import load_dotenv
-from os import getenv
-load_dotenv()
+from helpers.support_files import read_env_vars
 
 
 async def verify_admin_token(admin_token: str = Header()):
-    if admin_token != getenv('ADMIN_TOKEN'):
+    if admin_token != read_env_vars('ADMIN_TOKEN'):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail='Invalid admin token'
