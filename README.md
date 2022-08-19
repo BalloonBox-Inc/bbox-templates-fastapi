@@ -42,4 +42,5 @@ Create a `.env` file with the following:
 ```
 ADMIN_TOKEN = your_admin_token
 DATABASE_URI = your_database_uri
+SECRET_KEY = your_secret_key
 ```
