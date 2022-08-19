@@ -45,6 +45,6 @@ DATABASE_URI = your_database_uri
 
 # Security
 ACCESS_TOKEN_EXPIRE_MINUTES = time_in_minutes
-ALGORITHM = hashing_algorithm
-SECRET_KEY = your_secret_key (run the following command to generate key: openssl rand -hex 512)
+JWT_SECRET_KEY = jwt_hashing_algorithm
+JWT_SECRET_KEY = your_jwt_secret_key (run the following command to generate key: openssl rand -hex 512)
 ```
