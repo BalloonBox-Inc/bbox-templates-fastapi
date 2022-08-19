@@ -1,11 +1,9 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, declarative_base
-from dotenv import load_dotenv
-from os import getenv
-load_dotenv()
+from helpers.support_files import read_env_vars
 
 
-db_uri = getenv('DATABASE_URI')
+db_uri = read_env_vars('DATABASE_URI')
 if 'postgresql' not in db_uri:
     db_uri = db_uri.replace('postgres', 'postgresql')
 
