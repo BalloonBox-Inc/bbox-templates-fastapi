@@ -8,12 +8,11 @@ from typing import Optional
 
 JWT_SECRET_KEY = read_env_vars('JWT_SECRET_KEY')
 JWT_ALGORITHM = read_env_vars('JWT_ALGORITHM')
-
-
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl='/admin/login')
+OAUTH2_SCHEME = OAuth2PasswordBearer(tokenUrl='/admin/login')
 
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
+
     if expires_delta:
         expire = datetime.utcnow() + timedelta(minutes=int(expires_delta))
     else:
@@ -21,10 +20,11 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
 
     to_encode = data.copy()
     to_encode.update({'exp': expire})
+
     return jwt.encode(to_encode, JWT_SECRET_KEY, algorithm=JWT_ALGORITHM)
 
 
-async def get_current_user(token: str = Depends(oauth2_scheme)):
+async def get_current_user(token: str = Depends(OAUTH2_SCHEME)):
 
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
