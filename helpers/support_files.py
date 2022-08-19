@@ -1,5 +1,4 @@
 from os.path import dirname, join
-from pandas import read_csv
 from json import load
 from dotenv import load_dotenv
 from os import getenv
@@ -23,9 +22,6 @@ def read_file(filename):
             with open(file) as f:
                 data = load(f)
             return data
-
-        if ext == '.csv':
-            return read_csv(file)
 
     except Exception as e:
         print(f'\033[31m ERROR: {e}\033[0m')
