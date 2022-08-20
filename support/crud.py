@@ -1,5 +1,6 @@
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
+from sqlalchemy import exc
 from support import models, schemas, hashing
 
 
@@ -24,12 +25,26 @@ def get_user_by_email(db: Session, email: str):
 
 
 def add_row(db: Session, obj: models.UserTable):
-    db.add(obj)
-    db.commit()
-    return
+    try:
+        db.add(obj)
+        db.commit()
+        return
+    except exc.SQLAlchemyError:
+        db.rollback()
+        db.close()
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail='Unable to add data to database')
 
 
 def update_row(db: Session, obj: models.UserTable):
-    db.flush()
-    db.commit()
-    return
+    try:
+        db.flush()
+        db.commit()
+        return
+    except exc.SQLAlchemyError:
+        db.rollback()
+        db.close()
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail='Unable to update data to database')
