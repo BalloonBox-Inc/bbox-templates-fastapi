@@ -1,9 +1,9 @@
+from datetime import datetime, timedelta
+from typing import Optional
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
-from helpers.support_files import read_env_vars
-from datetime import datetime, timedelta
 from jose import JWTError, jwt
-from typing import Optional
+from helpers.support_files import read_env_vars
 
 
 JWT_SECRET_KEY = read_env_vars('JWT_SECRET_KEY')
