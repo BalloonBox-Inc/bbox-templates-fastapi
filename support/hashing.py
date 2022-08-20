@@ -1,6 +1,6 @@
-from helpers.support_files import read_env_vars
 import hashlib
 import hmac
+from helpers.support_files import read_env_vars
 
 
 def encrypt_password(password):
@@ -8,4 +8,4 @@ def encrypt_password(password):
 
 
 def verify_password(plain_password, hashed_password):
-    return True if hashed_password == encrypt_password(plain_password) else False
+    return bool(hashed_password == encrypt_password(plain_password))
