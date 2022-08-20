@@ -1,6 +1,7 @@
 from pydantic import BaseModel
 
 
+# Admin
 class AdminBase(BaseModel):
     email: str
 
@@ -14,7 +15,13 @@ class Token(BaseModel):
     token_type: str
 
 
+# User
 class UserBase(BaseModel):
-    username: str
     email: str
     password: str
+
+
+class UserUpdate(BaseModel):
+    email: str
+    password: str
+    is_active: bool

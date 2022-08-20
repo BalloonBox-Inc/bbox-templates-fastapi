@@ -4,7 +4,7 @@ import hmac
 
 
 def encrypt_password(password):
-    return hmac.new(key=read_env_vars('SECRET_KEY').encode('utf-8'), msg=password.encode('utf-8'), digestmod=hashlib.sha3_512).hexdigest()
+    return hmac.new(key=read_env_vars('JWT_SECRET_KEY').encode('utf-8'), msg=password.encode('utf-8'), digestmod=hashlib.sha3_512).hexdigest()
 
 
 def verify_password(plain_password, hashed_password):

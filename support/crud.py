@@ -1,11 +1,11 @@
 from fastapi import HTTPException, status
 from sqlalchemy.orm import Session
-from support.hashing import encrypt_password
-from support import models, schemas
+from support import models, schemas, hashing
 
 
 def create_admin_user(db: Session, item: schemas.AdminCreate):
-    new_admin_user = models.AdminTable(email=item.email, hashed_password=encrypt_password(item.password))
+    new_admin_user = models.AdminTable(
+        email=item.email, hashed_password=hashing.encrypt_password(item.password))
     try:
         db.add(new_admin_user)
         db.commit()
