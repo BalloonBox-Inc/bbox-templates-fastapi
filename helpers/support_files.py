@@ -1,8 +1,8 @@
 from os.path import dirname
 from os.path import join
 from os import getenv
-from dotenv import load_dotenv
 from json import load
+from dotenv import load_dotenv
 load_dotenv()
 
 
@@ -20,19 +20,20 @@ def read_file(filename):
         ext = filename.split('.')[-1]
 
         if ext == 'json':
-            with open(file) as f:
+            with open(file, encoding='utf-8') as f:
                 data = load(f)
             return data
+        return None
 
     except Exception as e:
         print(f'\033[31m ERROR: {e}\033[0m')
-        return False
+        return None
 
 
 def write_file(filename, content):
     try:
         file = join(get_root(), f'{filename}')
-        with open(file, 'w') as f:
+        with open(file, 'w', encoding='utf-8') as f:
             f.write(content)
         return True
 
