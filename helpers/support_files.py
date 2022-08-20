@@ -1,7 +1,8 @@
-from os.path import dirname, join
-from json import load
-from dotenv import load_dotenv
+from os.path import dirname
+from os.path import join
 from os import getenv
+from dotenv import load_dotenv
+from json import load
 load_dotenv()
 
 
