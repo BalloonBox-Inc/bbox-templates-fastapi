@@ -1,15 +1,25 @@
 ## This Repo
 
-This GitHub repo contains the template to initiate a project using FastAPI and Heroku with the use of external database and JWT security.
+This GitHub repo contains the template to initiate an application project using FastAPI. The application follows the principles of Object-oriented programming which aims modularity, reusability, easily upgradable and scalable.
+
+This application also includes:
+
+- External database integration
+- API throttling
+- API data validation (data type only)
+- OAuth2 with password and hashing
+- Bearer with JWT tokens
+- API testing and Unit testing
+- Heroku deployment
 
 ## How to use
 
-- create your project repo
-- clone the repo into it
-- create a virtual environvent
-- install dependencies
-- set up environment variables
-- start building your own project
+1. Create your project repo
+2. Clone this repo into your project repo
+3. Create a virtual environvent
+4. Install dependencies (packages)
+5. Set up environment variables
+6. Customize and start building your own project
 
 ### Starting
 
