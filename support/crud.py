@@ -34,7 +34,7 @@ def add_row(db: Session, obj: models.UserTable):
         db.close()
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
-            detail='Unable to add data to database')
+            detail='Unable to add data into database')
 
 
 def update_row(db: Session, obj: models.UserTable):
