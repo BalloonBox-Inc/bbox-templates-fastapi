@@ -1,4 +1,5 @@
-from tests.example import ExampleTest
+# from tests.api_testing.example import ExampleTest
+from tests.unit_testing.example import ExampleTest
 import unittest
 
 
