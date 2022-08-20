@@ -16,22 +16,36 @@ This GitHub repo contains the template to initiate a project using FastAPI and H
 Run the following commands to clone the repo:
 
 ```
+# clone template to your project directory as a sub-directory
 git clone https://github.com/BalloonBox-Inc/bbox-templates-fastapi-heroku.git
+
+# move template content to your project directory (out of the sub-directory)
 mv -v bbox-templates-fastapi-heroku/* .
+
+# move hidden file to your project directory (out of the sub-directory)
 mv bbox-templates-fastapi-heroku/.github .
+
+# move hidden file to your project directory (out of the sub-directory)
 mv bbox-templates-fastapi-heroku/.vscode .
+
+# move hidden file to your project directory (out of the sub-directory)
 mv bbox-templates-fastapi-heroku/.gitignore .
 ```
 
-Delete bbox-templates-fastapi-heroku folder from your project.
+Delete bbox-templates-fastapi-heroku sub-directory from your project.
 
 ### Requirements
 
 Run the following commands to create virtual environment and install dependencies:
 
 ```
+# create environment
 python -m venv venv
+
+# activate environment
 source venv/bin/activate
+
+# install packages
 pip install -r requirements.txt
 ```
 
