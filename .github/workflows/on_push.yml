@@ -26,10 +26,10 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
   job1:
-    uses: .github/workflows/quality_check.yaml
+    uses: /.github/workflows/quality_check.yaml
 
   job2:
     env:
       DATABASE_URI: ${{ secrets.DATABASE_URI }}
 
-    uses: .github/workflows/test_check.yaml
+    uses: /.github/workflows/test_check.yaml
