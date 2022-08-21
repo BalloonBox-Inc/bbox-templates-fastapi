@@ -1,10 +1,11 @@
 name: Quality and Testing
 
+on:
+  push:
+  workflow_dispatch:
+
 permissions:
   contents: read
-
-on: [push]
-  workflow_dispatch:
 
 jobs:
   build:
