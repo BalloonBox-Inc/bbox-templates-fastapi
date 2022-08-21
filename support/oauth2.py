@@ -37,7 +37,7 @@ async def get_current_user(token: str = Depends(OAUTH2_SCHEME)):
         if email is None:
             raise credentials_exception
 
-    except JWTError:
-        raise credentials_exception
+    except JWTError as e:
+        raise credentials_exception from e
 
     return payload
