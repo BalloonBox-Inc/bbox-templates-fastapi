@@ -1,4 +1,4 @@
-from fastapi import FastAPI, status
+from fastapi import FastAPI, Request, status
 from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse
@@ -9,7 +9,7 @@ from slowapi.util import get_remote_address
 from support.database import engine
 from support import models
 from routers import example
-from internal import admin
+# from internal import admin
 
 
 models.Base.metadata.create_all(bind=engine)
@@ -26,13 +26,13 @@ app.add_middleware(SlowAPIMiddleware)
 # routers
 app.include_router(example.router)
 
-# internal
-app.include_router(admin.router)
+# # internal
+# app.include_router(admin.router)
 
 
 # error handling
 @app.exception_handler(RequestValidationError)
-async def validation_exception_handler(exc: RequestValidationError):
+async def validation_exception_handler(request: Request, exc: RequestValidationError):
     return JSONResponse(
         status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
         content=jsonable_encoder({'error': exc.errors()})
