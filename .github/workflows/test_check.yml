@@ -1,0 +1,12 @@
+name: Test check
+
+on:
+  workflow_call:
+    jobs:
+      build:
+        runs-on: ubuntu-latest
+
+        steps:
+          - name: Test with pytest
+            run: |
+              pytest

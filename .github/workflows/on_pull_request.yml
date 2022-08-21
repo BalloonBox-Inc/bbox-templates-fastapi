@@ -1,8 +1,6 @@
-name: Scanning code
+name: Code scan
 
-on:
-  pull_request:
-    branches: [main]
+on: [pull_request]
 
 jobs:
   analyze:

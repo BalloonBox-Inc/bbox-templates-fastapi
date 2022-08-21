@@ -1,0 +1,13 @@
+name: Quality check
+
+on:
+  workflow_call:
+    jobs:
+      build:
+        runs-on: ubuntu-latest
+
+        steps:
+          - name: Lint with flake8 and pylint
+            run: |
+              flake8 .
+              pylint **/*.py

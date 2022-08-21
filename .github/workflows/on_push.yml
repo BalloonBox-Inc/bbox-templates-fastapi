@@ -1,9 +1,10 @@
-name: Running tests
-
-on: [push]
+name: Quality and Testing
 
 permissions:
   contents: read
+
+on: [push]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -20,14 +21,14 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip setuptools
-          pip install flake8 pylint pytest
+          pip install flake8 pylint
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-      - name: Lint with flake8 and pylint
-        run: |
-          flake8 .
-          pylint **/*.py
+  job1:
+    uses: ./.github/workflows/quality_check.yaml
 
-      - name: Test with pytest
-        run: |
-          pytest
+  job2:
+    env:
+      DATABASE_URI: ${{ secrets.DATABASE_URI }}
+
+    uses: ./.github/workflows/test_check.yaml
