@@ -25,7 +25,7 @@ def read_file(filename):
             return data
         return None
 
-    except Exception as e:
+    except OSError as e:
         print(f'\033[31m ERROR: {e}\033[0m')
         return None
 
@@ -37,6 +37,6 @@ def write_file(filename, content):
             f.write(content)
         return True
 
-    except Exception as e:
+    except OSError as e:
         print(f'\033[31m ERROR: {e}\033[0m')
         return False
