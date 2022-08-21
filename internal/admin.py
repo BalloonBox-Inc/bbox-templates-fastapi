@@ -1,9 +1,8 @@
 from fastapi import APIRouter, Depends, Request, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
-from support.oauth2 import create_access_token
-from support.dependencies import authenticate_user
 from helpers.support_files import read_env_vars
-from support import schemas
+from support import dependencies, schemas
+from support.oauth2 import create_access_token
 
 
 router = APIRouter(
@@ -25,7 +24,7 @@ async def example_admin(request: Request, item: schemas.AdminBase, form_data: OA
 
     print(f'\033[35;1m Request received from: {request.client.host}\033[0m')
 
-    user = authenticate_user(item.__dict__, form_data.email, form_data.password)
+    user = dependencies.authenticate_user(item.__dict__, form_data.email, form_data.password)
     if not user:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
