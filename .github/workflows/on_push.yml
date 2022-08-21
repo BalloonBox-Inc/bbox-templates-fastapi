@@ -23,10 +23,10 @@ jobs:
           pip install flake8 pylint
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-  call-workflow:
+  call-workflow-1:
     uses: ./.github/workflows/quality_check.yml
 
-  call-workflow:
+  call-workflow-2:
     env:
       DATABASE_URI: ${{ secrets.DATABASE_URI }}
 
