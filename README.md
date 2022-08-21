@@ -72,3 +72,5 @@ ACCESS_TOKEN_EXPIRE_MINUTES = time_in_minutes
 JWT_SECRET_KEY = jwt_hashing_algorithm
 JWT_SECRET_KEY = your_jwt_secret_key (run the following command to generate key: openssl rand -hex 512)
 ```
+
+Learn how to set up environment variables on Github [here](https://adamtheautomator.com/github-actions-environment-variables/#Managing_Environment_Variables_via_GitHub_Actions_environment_variables_and_Secrets). This step is crutial for running tests without crashing.
