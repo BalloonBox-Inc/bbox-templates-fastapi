@@ -1,7 +1,6 @@
-name: Quality and Testing
+name: On Push
 
-on:
-  push:
+on: [push]
   workflow_dispatch:
 
 permissions:
