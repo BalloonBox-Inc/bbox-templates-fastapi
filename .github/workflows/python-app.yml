@@ -25,8 +25,8 @@ jobs:
 
       - name: Lint with flake8 and pylint
         run: |
-          flake8 . --per-file-ignores='venv/*:C,E,F,W' --count --max-complexity=10 --max-line-length=160 --statistics
-          pylint **/*.py --ignore-paths=venv
+          flake8 .
+          pylint **/*.py
 
       - name: Test with pytest
         run: |
