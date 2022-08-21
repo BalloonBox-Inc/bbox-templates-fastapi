@@ -1,9 +1,6 @@
 name: On Push
 
-on:
-  push:
-    branches: [main]
-  workflow_dispatch:
+on: [push]
 
 permissions:
   contents: read
@@ -26,10 +23,10 @@ jobs:
           pip install flake8 pylint
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
 
-  job1:
+  call-workflow:
     uses: ./.github/workflows/quality_check.yml
 
-  job2:
+  call-workflow:
     env:
       DATABASE_URI: ${{ secrets.DATABASE_URI }}
 
