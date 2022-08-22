@@ -27,22 +27,22 @@ Run the following commands to clone the repo:
 
 ```
 # clone template to your project directory as a sub-directory
-git clone https://github.com/BalloonBox-Inc/bbox-templates-fastapi-heroku.git
+git clone https://github.com/BalloonBox-Inc/bbox-templates-fastapi.git
 
 # move template content to your project directory (out of the sub-directory)
-mv -v bbox-templates-fastapi-heroku/* .
+mv -v bbox-templates-fastapi/* .
 
 # move hidden file to your project directory (out of the sub-directory)
-mv bbox-templates-fastapi-heroku/.github .
+mv bbox-templates-fastapi/.github .
 
 # move hidden file to your project directory (out of the sub-directory)
-mv bbox-templates-fastapi-heroku/.vscode .
+mv bbox-templates-fastapi/.vscode .
 
 # move hidden file to your project directory (out of the sub-directory)
-mv bbox-templates-fastapi-heroku/.gitignore .
+mv bbox-templates-fastapi/.gitignore .
 ```
 
-Delete bbox-templates-fastapi-heroku sub-directory from your project.
+Delete bbox-templates-fastapi sub-directory from your project.
 
 ### Requirements
 
