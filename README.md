@@ -29,17 +29,8 @@ Run the following commands to clone the repo:
 # clone template to your project directory as a sub-directory
 git clone https://github.com/BalloonBox-Inc/bbox-templates-fastapi.git
 
-# move template content to your project directory (out of the sub-directory)
-mv -v bbox-templates-fastapi/* .
-
-# move hidden file to your project directory (out of the sub-directory)
-mv bbox-templates-fastapi/.github .
-
-# move hidden file to your project directory (out of the sub-directory)
-mv bbox-templates-fastapi/.vscode .
-
-# move hidden file to your project directory (out of the sub-directory)
-mv bbox-templates-fastapi/.gitignore .
+# move template content to your project root directory (out of the cloned sub-directory)
+mv -v bbox-templates-fastapi/{*,.*} .
 ```
 
 Delete bbox-templates-fastapi sub-directory from your project.
