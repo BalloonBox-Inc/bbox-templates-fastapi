@@ -1,16 +1,16 @@
 from fastapi import APIRouter, Depends, Request, HTTPException, status
 from sqlalchemy.orm import Session
-from support.database import get_db
-from support import crud, dependencies, hashing, models, schemas
+from db import crud, models
+from db.session import get_db
+from schemas import users
+from security import dependencies, hashing
 
 
-router = APIRouter(
-    prefix='/user',
-    tags=['User'])
+router = APIRouter()
 
 
 @router.post('/create', status_code=status.HTTP_200_OK)
-async def create_user(request: Request, item: schemas.UserBase, db: Session = Depends(get_db)):
+async def create_user(request: Request, item: users.UserCreate, db: Session = Depends(get_db)):
     '''
     Description
 
@@ -28,15 +28,16 @@ async def create_user(request: Request, item: schemas.UserBase, db: Session = De
     print(f'\033[35;1m Request received from: {request.client.host}\033[0m')
 
     # check if user exists
-    user = crud.get_user_by_email(db, email=item.email)
+    user = crud.get_user_by_email(db, models.UserTable, item.email)
     if user:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail='Email already registered')
 
     # add user
-    crud.add_row(
-        db, models.UserTable(
+    crud.create_user(
+        db,
+        models.UserTable(
             email=item.email,
             hashed_password=hashing.encrypt_password(item.password),
             is_active=True))
@@ -45,7 +46,7 @@ async def create_user(request: Request, item: schemas.UserBase, db: Session = De
 
 
 @router.post('/update', status_code=status.HTTP_200_OK)
-async def update_user(request: Request, item: schemas.UserUpdate, db: Session = Depends(get_db)):
+async def update_user(request: Request, item: users.UserUpdate, db: Session = Depends(get_db)):
     '''
     Description
 
@@ -64,10 +65,10 @@ async def update_user(request: Request, item: schemas.UserUpdate, db: Session = 
     print(f'\033[35;1m Request received from: {request.client.host}\033[0m')
 
     # authenticate user
-    user = dependencies.authenticate_user(db, email=item.email, password=item.password)
+    user = dependencies.authenticate_user(db, item.email, item.password)
 
     # update user
     user.is_active = item.is_active
-    crud.update_row(db, obj=user)
+    crud.update_user(db, user)
 
     return {'error': False, 'detail': 'User has successfully been updated'}

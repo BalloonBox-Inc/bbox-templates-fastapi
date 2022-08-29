@@ -1,20 +1,19 @@
 [flake8]
-
 # Specify a list of mappings of files and the codes that should be ignored for the entirety of the file
 per-file-ignores =
     venv/*:C,E,F,W
     ./tests/app_test.py:C,E,F,W
 
-########## Formatting ##########
 
+########## Formatting ##########
 # Print the total number of errors
 count = True
 
 # Count the number of occurrences of each error/warning code and print a report
 statistics = True
 
-########## Options ##########
 
+########## Options ##########
 # Set the maximum length that any line
 max-line-length = 160
 

@@ -1,5 +1,5 @@
 from sqlalchemy import Column, Boolean, Integer, String
-from support.database import Base
+from db.session import Base
 
 
 class AdminTable(Base):

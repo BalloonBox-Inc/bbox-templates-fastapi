@@ -65,3 +65,41 @@ JWT_SECRET_KEY = your_jwt_secret_key (run the following command to generate key:
 ```
 
 Learn how to set up environment variables on Github [here](https://adamtheautomator.com/github-actions-environment-variables/#Managing_Environment_Variables_via_GitHub_Actions_environment_variables_and_Secrets). This step is crutial for running tests without crashing.
+
+### Directory Structure
+
+The tree diagram below describes the structure of this Repo. Notice that the decision tree only features the most important files and disregards all others.
+
+```bash
+.
+└───
+    ├── .github
+    │   ├── on_pull_request.yml         # GitHub actions executed whenever a pull request is made
+    │   └── on_push.yml                 # GitHub actions executed whenever a push is made
+    ├── .vscode
+    │   └── settings.json               # VS Code setting preferences
+    ├── apis
+    │   └── routers.py                  # API routers aggregator
+    ├── db
+    │   ├── crud.py                     # Create, Read, Update, Delete (CRUD) operations to manage data elements of relational databases
+    │   ├── session.py                  # database connection setup
+    │   ├── models.py                   # database tables
+    │   └── utils.py                    # database connect/disconnect assurance process
+    ├── schemas                         # [directory] multiple files used to validate received data and reformat it before sending back to the client/browser (http requests/responses)
+    ├── security
+    │   ├── dependencies.py             # required inejctions (security and authentication) to happen before running an API router
+    │   ├── hashing.py                  # encrypting and verifying passwords
+    │   └── tokens.py                   # JWT tokens
+    ├── tests
+    │   ├── api_test                    # [directory] multiple API tests: process of checking the functionality, reliability, performance, and security of the programming interfaces
+    │   └── unit_test                   # [directory] multiple Unit tests: process of checking each individual units of source code
+    ├── .env                            # project environment variables
+    ├── .gitignore                      # files/directories to be ignored by GitHub when commiting code
+    ├── .flake8                         # Flake8 coding standards on a module-by-module basis
+    ├── .pylintrc                       # Pylint coding standards on a module-by-module basis
+    ├── config.py                       # project settings
+    ├── main.py                         # FastAPI application
+    ├── Procfile                        # Heroku commands that are executed by the dyno's app on startup
+    ├── README.md                       # this project guide
+    └── requirements.txt                # Python libraries, modules, and packages that are used while developing this project
+```
