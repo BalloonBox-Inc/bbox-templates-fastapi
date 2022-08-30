@@ -6,7 +6,7 @@ load_dotenv()
 class Settings:
 
     # project
-    PROJECT_NAME = 'Your_Project_Name'
+    PROJECT_NAME = 'YourProjectName'
     PROJECT_VERSION = '1.0.0'
 
     # database
@@ -21,6 +21,8 @@ class Settings:
 
     # testing
     TEST_USER_EMAIL = 'test@example.com'
+    TEST_USER_PASSWORD = 'super-secret-password'
+    TEST_USER_STATUS = False
 
 
 settings = Settings()
