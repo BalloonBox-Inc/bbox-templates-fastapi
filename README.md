@@ -85,14 +85,15 @@ The tree diagram below describes the structure of this Repo. Notice that the dec
     │   ├── session.py                  # database connection setup
     │   ├── models.py                   # database tables
     │   └── utils.py                    # database connect/disconnect assurance process
-    ├── schemas                         # [directory] multiple files used to validate received data and reformat it before sending back to the client/browser (http requests/responses)
+    ├── helpers                         # [directory] multiple functions that support the application
+    ├── schemas                         # [directory] multiple schemas used to validate received data and reformat it before sending back to the client/browser (http requests/responses)
     ├── security
     │   ├── dependencies.py             # required inejctions (security and authentication) to happen before running an API router
     │   ├── hashing.py                  # encrypting and verifying passwords
     │   └── tokens.py                   # JWT tokens
     ├── tests
-    │   ├── api_test                    # [directory] multiple API tests: process of checking the functionality, reliability, performance, and security of the programming interfaces
-    │   └── unit_test                   # [directory] multiple Unit tests: process of checking each individual units of source code
+    │   ├── api_tests                   # [directory] multiple API tests: process of checking the functionality, reliability, performance, and security of the programming interfaces
+    │   └── unit_tests                  # [directory] multiple Unit tests: process of checking each individual units of source code
     ├── .env                            # project environment variables
     ├── .gitignore                      # files/directories to be ignored by GitHub when commiting code
     ├── .flake8                         # Flake8 coding standards on a module-by-module basis
