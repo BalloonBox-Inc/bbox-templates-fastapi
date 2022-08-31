@@ -1,8 +1,6 @@
 [flake8]
 # Specify a list of mappings of files and the codes that should be ignored for the entirety of the file
-per-file-ignores =
-    venv/*:C,E,F,W
-    ./tests/app_test.py:C,E,F,W
+per-file-ignores = venv/*:C,E,F,W
 
 
 ########## Formatting ##########
