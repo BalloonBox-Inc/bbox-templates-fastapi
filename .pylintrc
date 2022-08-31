@@ -1,32 +1,31 @@
 [MASTER]
 # Add files or directories to the blacklist, separated by a comma
-ignore-paths=venv,tests/app_test.py
-
+ignore-paths = venv
 # Disable the message, report, category or checker with the given id(s), separated by a comma
-disable=C0114,C0115,C0116,E0611,W0613,W0621
+disable = C0114,C0115,C0116,E0611,W0613,W0621
 
 
 [BASIC]
 # Good variable names which should always be accepted, separated by a comma
-good-names=db,e,f,m,obj,t,t0,t1
+good-names = db,e,f
 
 
 [ELIF]
 # Maximum number of nested blocks for function / method body
-max-nested-blocks=5
+max-nested-blocks = 2
 
 
 [FORMAT]
 # Maximum number of characters on a single line
-max-line-length=160
+max-line-length = 160
 
 
 [DESIGN]
 # Maximum number of arguments for function / method
-max-args=7
+max-args = 7
 
 # Maximum number of attributes for a class (see R0902)
-max-attributes=7
+max-attributes = 7
 
 # Minimum number of public methods for a class (see R0903)
-min-public-methods=0
+min-public-methods = 0
