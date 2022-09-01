@@ -60,7 +60,7 @@ Create a `.env` file with the following:
 
 ```
 # Database
-DATABASE_URI = your_database_uri
+DATABASE_URL = your_database_uri
 
 # Security
 ACCESS_TOKEN_EXPIRE_MINUTES = time_in_minutes
