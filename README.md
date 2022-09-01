@@ -49,6 +49,9 @@ source venv/bin/activate
 # install packages
 pip install -r requirements.txt
 pip install --upgrade pip setuptools
+
+# install hooks
+pre-commit install
 ```
 
 ### Credentials
@@ -75,8 +78,8 @@ The tree diagram below describes the structure of this Repo. Notice that the dec
 .
 └───
     ├── .github
-    │   ├── on_pull_request.yml         # GitHub actions executed whenever a pull request is made
-    │   └── on_push.yml                 # GitHub actions executed whenever a push is made
+    │   ├── on_pull_request.yaml        # GitHub actions executed whenever a pull request is made
+    │   └── on_push.yaml                # GitHub actions executed whenever a push is made
     ├── .vscode
     │   └── settings.json               # VS Code setting preferences
     ├── apis
@@ -91,14 +94,15 @@ The tree diagram below describes the structure of this Repo. Notice that the dec
     ├── security
     │   ├── dependencies.py             # required inejctions (security and authentication) to happen before running an API router
     │   ├── hashing.py                  # encrypting and verifying passwords
-    │   └── tokens.py                   # JWT tokens
+    │   └── tokens.py                   # JWT access tokens
     ├── tests
     │   ├── api_tests                   # [directory] multiple API tests: process of checking the functionality, reliability, performance, and security of the programming interfaces
     │   └── unit_tests                  # [directory] multiple Unit tests: process of checking each individual units of source code
     ├── .env                            # project environment variables
     ├── .gitignore                      # files/directories to be ignored by GitHub when commiting code
-    ├── .flake8                         # Flake8 coding standards on a module-by-module basis
-    ├── .pylintrc                       # Pylint coding standards on a module-by-module basis
+    ├── .pre-commit-config.yaml         # pre-commit hooks settings
+    ├── .flake8                         # Flake8 settings and coding standards on a module-by-module basis
+    ├── .pylintrc                       # Pylint settings and coding standards on a module-by-module basis
     ├── config.py                       # project settings
     ├── main.py                         # FastAPI application
     ├── Procfile                        # Heroku commands that are executed by the dyno's app on startup
