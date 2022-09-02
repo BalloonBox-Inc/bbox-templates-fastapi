@@ -1,4 +1,5 @@
 from os import getenv
+from os.path import dirname
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -8,6 +9,7 @@ class Settings:
     # project
     PROJECT_NAME = 'YourProjectName'
     PROJECT_VERSION = '1.0.0'
+    PROJECT_ROOT = dirname(__file__)
 
     # database
     DATABASE_URL = getenv('DATABASE_URL')
