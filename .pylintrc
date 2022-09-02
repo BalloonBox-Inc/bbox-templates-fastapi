@@ -8,7 +8,7 @@ disable = E0611,W0613,W0621,C0114,C0115,C0116
 
 [BASIC]
 # Good variable names which should always be accepted, separated by a comma
-good-names = db,e,f,r
+good-names = db,e,f,i,r
 
 
 [ELIF]
