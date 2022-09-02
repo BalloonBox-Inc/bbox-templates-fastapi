@@ -4,7 +4,7 @@ from config import settings
 
 async def check_db_connected():
     try:
-        db = Database(settings.DATABASE_URI)
+        db = Database(settings.DATABASE_URL)
         if not db.is_connected:
             await db.connect()
     except Exception as e:
@@ -14,7 +14,7 @@ async def check_db_connected():
 
 async def check_db_disconnected():
     try:
-        db = Database(settings.DATABASE_URI)
+        db = Database(settings.DATABASE_URL)
         if db.is_connected:
             await db.disconnect()
     except Exception as e:
