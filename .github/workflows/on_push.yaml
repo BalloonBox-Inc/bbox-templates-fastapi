@@ -63,5 +63,5 @@ jobs:
 
       - name: API test
         run: |
-          pip install pytest
+          pip install pytest starlette
           pytest tests/api_tests
