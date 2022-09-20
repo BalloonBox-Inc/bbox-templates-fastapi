@@ -7,7 +7,10 @@ concurrency:
   cancel-in-progress: true
 
 env:
+  ACCESS_TOKEN_EXPIRE_MINUTES: ${{ secrets.ACCESS_TOKEN_EXPIRE_MINUTES }}
   DATABASE_URL: ${{ secrets.DATABASE_URL }}
+  JWT_ALGORITHM: ${{ secrets.JWT_ALGORITHM }}
+  JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
 
 jobs:
   quality-check-pylint:
