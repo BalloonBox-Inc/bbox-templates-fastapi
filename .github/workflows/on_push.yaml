@@ -42,22 +42,22 @@ jobs:
           pip install flake8
           flake8 .
 
-  # test-unittest-workflow:
-  #   if: success()
-  #   runs-on: ubuntu-latest
-  #   needs: quality-flake8-workflow
-  #   steps:
-  #     - name: Unit test
-  #       run: |
-  #         pip install pytest
-  #         pytest tests/unit_tests
+  test-unittest-workflow:
+    if: success()
+    runs-on: ubuntu-latest
+    needs: quality-flake8-workflow
+    steps:
+      - name: Unit test
+        run: |
+          pip install pytest
+          pytest tests/unit_tests
 
-  # test-apitest-workflow:
-  #   if: success()
-  #   runs-on: ubuntu-latest
-  #   needs: test-unittest-workflow
-  #   steps:
-  #     - name: API test
-  #       run: |
-  #         pip install pytest
-  #         pytest tests/api_tests
+  test-apitest-workflow:
+    if: success()
+    runs-on: ubuntu-latest
+    needs: test-unittest-workflow
+    steps:
+      - name: API test
+        run: |
+          pip install pytest
+          pytest tests/api_tests
