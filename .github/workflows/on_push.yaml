@@ -7,7 +7,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  quality-pylint-workflow:
+  quality-check-pylint:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -22,9 +22,9 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           pip install pylint; pylint --recursive=y .
 
-  quality-flake8-workflow:
+  quality-check-flake8:
     if: success()
-    needs: quality-pylint-workflow
+    needs: quality-check-pylint
 
     runs-on: ubuntu-latest
     steps:
@@ -40,9 +40,9 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           pip install flake8; flake8 .
 
-  test-unittest-workflow:
+  test-check-unittest:
     if: success()
-    needs: quality-flake8-workflow
+    needs: quality-check-flake8
 
     runs-on: ubuntu-latest
     steps:
@@ -58,9 +58,9 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           pip install pytest; pytest tests/unit_tests
 
-  test-apitest-workflow:
+  test-check-apitest:
     if: success()
-    needs: test-unittest-workflow
+    needs: test-check-unittest
 
     runs-on: ubuntu-latest
     steps:
