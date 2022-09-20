@@ -24,9 +24,8 @@ jobs:
 
       - name: Lint with pylint
         run: |
-          python -m pip install --upgrade pip setuptools
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          pip install pylint; pylint --recursive=y .
+          python -m pip install --upgrade pip setuptools pylint
+          pylint --recursive=y .
 
   quality-check-flake8:
     if: success()
@@ -42,9 +41,8 @@ jobs:
 
       - name: Lint with flake8
         run: |
-          python -m pip install --upgrade pip setuptools
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          pip install flake8; flake8 .
+          python -m pip install --upgrade pip setuptools flake8
+          flake8 .
 
   test-check-unittest:
     if: success()
@@ -60,9 +58,8 @@ jobs:
 
       - name: Unit test
         run: |
-          python -m pip install --upgrade pip setuptools
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          pip install pytest; pytest tests/unit_tests
+          python -m pip install --upgrade pip setuptools pytest
+          pytest tests/unit_tests
 
   test-check-apitest:
     if: success()
@@ -78,6 +75,6 @@ jobs:
 
       - name: API test
         run: |
-          python -m pip install --upgrade pip setuptools
+          python -m pip install --upgrade pip setuptools pytest
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          pip install pytest; pytest tests/api_tests
+          pytest tests/api_tests
