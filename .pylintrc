@@ -3,7 +3,7 @@
 ignore-paths = venv
 
 # Disable the message, report, category or checker with the given id(s), separated by a comma
-disable = E0611,W0613,W0621,C0114,C0115,C0116
+disable = E0611,W0613,W0621
 
 
 [BASIC]
