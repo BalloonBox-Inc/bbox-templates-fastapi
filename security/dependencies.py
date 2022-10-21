@@ -1,62 +1,42 @@
-from fastapi import Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer
-from jose import JWTError, jwt
-from schemas.users import UserShow
-from db import crud, models
-from security import hashing
+'''This module manages global application dependencies.'''
+
+from functools import lru_cache
+from fastapi import status
+from sqlalchemy.orm import Session
+
 from config import settings
+from apis import schemas
+from apis.exceptions import ExceptionFormatter, exc
+from database import crud, models
+from security import hashing
 
 
-OAUTH2_SCHEME = OAuth2PasswordBearer(tokenUrl='/admin/login')
+@lru_cache()
+def get_settings():
+    '''Use the @lru_cache() decorator to create Settings object only once, instead of doing it for each request.
+    Learn more at https://fastapi.tiangolo.com/it/advanced/settings/#creating-the-settings-only-once-with-lru_cache'''
+    return settings
 
 
-def authenticate_user(db, email, password):
+def authenticate_user(db: Session, item: schemas.UserUpdate):
+    '''Ensure user is authenticated.'''
 
-    user = crud.get_user_by_email(db, models.UserTable, email=email)
-
+    user = crud.get_object(
+        db=db,
+        table=models.UserTable,
+        column=models.UserTable.email,
+        value=item.email
+    )
     if not user:
-        raise HTTPException(
+        raise ExceptionFormatter(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail='Invalid email')
+            message=exc.NOT_EMAIL
+        )
 
-    if not hashing.verify_password(password, user.hashed_password):
-        raise HTTPException(
+    if not hashing.verify_hash(item.password, user.hashed_password):
+        raise ExceptionFormatter(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail='Invalid password')
+            message=exc.NOT_PASSWORD
+        )
 
     return user
-
-
-async def get_current_user(db, token: str = Depends(OAUTH2_SCHEME)):
-
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail='Unable to authenticate token',
-        headers={'WWW-Authenticate': 'Bearer'})
-
-    try:
-        payload = jwt.decode(token, settings.JWT_SECRET_KEY, algorithms=[settings.JWT_ALGORITHM])
-        email: str = payload.get('email')
-
-        if email is None:
-            raise credentials_exception
-
-    except JWTError as e:
-        raise credentials_exception from e
-
-    user = crud.get_user_by_email(db, models.UserTable, email=email)
-
-    if not user:
-        raise credentials_exception
-
-    return user
-
-
-async def get_current_active_user(current_user: UserShow = Depends(get_current_user)):
-
-    if not current_user.is_active:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail='Inactive user')
-
-    return current_user

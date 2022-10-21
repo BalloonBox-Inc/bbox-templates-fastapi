@@ -1,30 +1,36 @@
-from os import getenv
-from os.path import dirname
+'''This module configures application settings from config.yaml'''
+
+from pyaml_env import parse_config
 from dotenv import load_dotenv
+
+from helpers.misc import format_db_url
+
+
 load_dotenv()
 
 
-class Settings:
+class Settings():
+    '''Project settings.'''
 
-    # project
-    PROJECT_NAME = 'YourProjectName'
-    PROJECT_VERSION = '1.0.0'
-    PROJECT_ROOT = dirname(__file__)
-
-    # database
-    DATABASE_URL = getenv('DATABASE_URL')
-    if 'postgresql' not in DATABASE_URL:
-        DATABASE_URL = DATABASE_URL.replace('postgres', 'postgresql')
-
-    # security
-    ACCESS_TOKEN_EXPIRE_MINUTES = getenv('ACCESS_TOKEN_EXPIRE_MINUTES')
-    JWT_ALGORITHM = getenv('JWT_ALGORITHM')
-    JWT_SECRET_KEY = getenv('JWT_SECRET_KEY')
-
-    # testing
-    TEST_USER_EMAIL = 'test@example.com'
-    TEST_USER_PASSWORD = 'super-secret-password'
-    TEST_USER_STATUS = False
+    def __init__(self, d):
+        for k, v in d.items():
+            if isinstance(k, (list, tuple)):
+                setattr(self, k, [Settings(x) if isinstance(x, dict) else x for x in v])
+            else:
+                setattr(self, k, Settings(v) if isinstance(v, dict) else v)
 
 
-settings = Settings()
+# project settings
+config = parse_config('config.yaml')
+
+# set up environment
+env = config['APP']['ENVIRONMENT']
+if env == 'development':
+    config['APP']['DEBUG'] = True
+    config['APP']['TESTING'] = True
+
+# format database URL
+config['DATABASE']['BASE_URL'] = format_db_url(config['DATABASE']['BASE_URL'])
+
+# dict to class
+settings = Settings(config)
