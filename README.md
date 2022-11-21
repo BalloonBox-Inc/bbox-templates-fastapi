@@ -46,7 +46,6 @@ Create your own APIs under `./apis/routers/**.py`. There are currently two API e
 Remember to update the following files as appropriate:
 
 ```basb
-./apis/exceptions.py
 ./apis/middleware.py
 ./apis/schemas.py
 ```
@@ -73,18 +72,23 @@ If have added new variables to the environment, please make sure to udpate the f
 │   └── settings.json               # VS Code setting preferences
 ├── apis
 │   ├── routers/**.py               # [directory] multiple API routers, including webhooks
-│   ├── exceptions.py               # API exception messages
 │   ├── middleware.py               # API routers aggregator
 │   └── schemas.py                  # schemas used to validate received data and reformat it before sending back to the client/browser (http requests/responses)
 ├── database
 │   ├── crud.py                     # Create, Read, Update, Delete (CRUD) operations to manage data elements of relational databases
 │   ├── models.py                   # database tables
 │   ├── session.py                  # database connection setup
-│   └── utils.py                    # database connect/disconnect assurance process
+│   └── startup.py                  # database initial data insertion.
 ├── helpers
+│   ├── api_exceptions.py           # API exceptions settings
+│   ├── api_routers.py              # include API routers
+│   ├── app_settings.py             # application settings
+│   ├── app_throttling.py           # application throttling
 │   ├── http_requests.py            # HTTP requests settings and error handling
+│   ├── lru_caching.py              # LRU cache decorator settings
 │   └── misc.py                     # miscellaneous collection of unit functions
 ├── security
+│   ├── admin.py                    # admin authentication setup
 │   ├── dependencies.py             # required inejctions (security and authentication) to happen before running an API router
 │   ├── hashing.py                  # encrypting and verifying signatures
 │   └── tokens.py                   # JWT access tokens

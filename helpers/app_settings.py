@@ -2,7 +2,7 @@
 
 
 class AppSettings():
-    '''Project settings.'''
+    '''Application settings.'''
 
     def __init__(self, d):
         for k, v in d.items():
