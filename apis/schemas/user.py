@@ -1,14 +1,7 @@
 '''This module defines the HTTP request schemas for the FastAPI routers.'''
 
-from enum import Enum
+from datetime import date
 from pydantic import BaseModel, EmailStr
-
-
-class BlockchainNativeTokens(str, Enum):
-    '''Define allowed blockchain native tokens.'''
-
-    MATIC = 'MATIC'
-    NEAR = 'NEAR'
 
 
 class UserCreate(BaseModel):
@@ -16,7 +9,6 @@ class UserCreate(BaseModel):
 
     email: EmailStr
     password: str
-    blockchain: BlockchainNativeTokens
 
 
 class UserUpdate(BaseModel):
@@ -25,3 +17,12 @@ class UserUpdate(BaseModel):
     email: EmailStr
     password: str
     is_active: bool
+
+
+class User(BaseModel):
+    '''User response model.'''
+
+    email: str
+    is_active: bool
+    created_at: date
+    updated_at: date

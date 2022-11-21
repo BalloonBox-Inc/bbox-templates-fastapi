@@ -3,15 +3,20 @@
 import hashlib
 import hmac
 
-from config import settings
+from config import get_settings
 
 
-def generate_hash(text: str):
-    '''Encript a string with SHA3-512 algorithm.'''
-    key = settings.SECURITY.JWT_SECRET_KEY.encode('utf-8')
-    return hmac.new(key=key, msg=text.encode('utf-8'), digestmod=hashlib.sha3_512).hexdigest()
+settings = get_settings()
 
 
-def verify_hash(signature: str, hash: str):
-    '''Check if string-signature is valid.'''
-    return bool(hash == generate_hash(signature))
+class SecureHash:
+    '''Secure Hash Algorithm (SHA) class.'''
+
+    def create(text: str):
+        '''Create a encripted hash.'''
+        key = settings.SECURITY.JWT_SECRET_KEY.encode('utf-8')
+        return hmac.new(key=key, msg=text.encode('utf-8'), digestmod=hashlib.sha3_512).hexdigest()
+
+    def verify(signature: str, hash: str):
+        '''Verify if signature-hash pair is valid.'''
+        return bool(hash == SecureHash.create(signature))

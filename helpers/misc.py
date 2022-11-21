@@ -1,13 +1,6 @@
 '''This module contains a miscellaneous collection of unit functions.'''
 
 import json
-import time
-
-
-# Time
-def current_utc_timestamp():
-    '''Get current timestamp at UTC.'''
-    return int(time.time())
 
 
 # Data type convertion
@@ -24,9 +17,9 @@ def format_db_url(url: str):
     return url
 
 
-def flatten_list(lst: list):
-    '''Flat list out of a list of lists.'''
-    return [item for sublist in lst for item in sublist]
+def objects_to_dict_list(lst: list):
+    '''Convert a list of objects to a list of dict'''
+    return [item.__dict__ for item in lst]
 
 
 # Managing files
@@ -40,3 +33,12 @@ def read_json(filename: str):
     '''Read a JSON file.'''
     with open(filename, mode='r', encoding='utf-8') as f:
         return json.load(f)
+
+
+# Calling functions
+def try_except(func, *args, **kwargs):
+    '''Generic try-except function.'''
+    try:
+        return func(*args, **kwargs)
+    except Exception as e:  # noqa: F841 pylint: disable=[W0612,W0703]
+        return None
