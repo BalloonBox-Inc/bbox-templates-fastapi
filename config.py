@@ -1,23 +1,20 @@
 '''This module configures application settings from config.yaml'''
 
+from helpers.lru_caching import timed_lru_cache
 from pyaml_env import parse_config
 from dotenv import load_dotenv
 
+from helpers.app_settings import AppSettings
 from helpers.misc import format_db_url
 
 
 load_dotenv()
 
 
-class Settings():
-    '''Project settings.'''
-
-    def __init__(self, d):
-        for k, v in d.items():
-            if isinstance(k, (list, tuple)):
-                setattr(self, k, [Settings(x) if isinstance(x, dict) else x for x in v])
-            else:
-                setattr(self, k, Settings(v) if isinstance(v, dict) else v)
+@timed_lru_cache(seconds=60)
+def get_settings():
+    '''Set up settings in cache for the above lifetime, then refreshes it.'''
+    return AppSettings(config)
 
 
 # project settings
@@ -31,6 +28,3 @@ if env == 'development':
 
 # format database URL
 config['DATABASE']['BASE_URL'] = format_db_url(config['DATABASE']['BASE_URL'])
-
-# dict to class
-settings = Settings(config)

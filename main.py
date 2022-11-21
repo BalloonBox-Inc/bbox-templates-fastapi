@@ -4,58 +4,35 @@ from fastapi import FastAPI, Request, status
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
-from slowapi import Limiter, _rate_limit_exceeded_handler
-from slowapi.middleware import SlowAPIMiddleware
-from slowapi.errors import RateLimitExceeded
-from slowapi.util import get_remote_address
+
+from config import get_settings
 from apis.middleware import api_routers
-from apis.exceptions import ExceptionFormatter
-from database import models, session, utils
-from config import settings
-
-
-def include_routers(app):
-    '''Add routers to the FastAPI framework.'''
-    app.include_router(api_routers)
-
-
-def control_throttling(app):
-    '''Limit the amount of requests per minute based on IP address.'''
-    limiter = Limiter(key_func=get_remote_address, default_limits=['5/minute'])
-    app.state.limiter = limiter
-    app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
-    app.add_middleware(SlowAPIMiddleware)
+from database import models, session
+from database.startup import setup_database
+from helpers.api_exceptions import ExceptionFormatter
+from helpers.api_routers import APIRouters
+from helpers.app_throttling import Throttling
 
 
 def create_database():
     '''Initiate the database session.'''
     models.Base.metadata.create_all(bind=session.engine)
+    setup_database()
 
 
 def start_application():
     '''Initiate the FastAPI application.'''
+    settings = get_settings()
     app = FastAPI(title=settings.APP.PROJECT_NAME, version=settings.APP.PROJECT_VERSION)
-    include_routers(app)
-    control_throttling(app)
+    app = Throttling.enable(app)
+    app = APIRouters.include(app, api_routers)
+
     create_database()
     return app
 
 
 # initiate application
 app = start_application()
-
-
-# database securely managing session
-@app.on_event('startup')
-async def app_startup():
-    '''Ensure that the connection with the database has been established.'''
-    await utils.check_db_connected()
-
-
-@app.on_event('shutdown')
-async def app_shutdown():
-    '''Ensure that the connection with the database has been terminated.'''
-    await utils.check_db_disconnected()
 
 
 # body request error handler

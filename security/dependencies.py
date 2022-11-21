@@ -1,24 +1,26 @@
 '''This module manages global application dependencies.'''
 
-from functools import lru_cache
-from fastapi import status
+import json
+from fastapi import Request, status
 from sqlalchemy.orm import Session
 
-from config import settings
-from apis import schemas
-from apis.exceptions import ExceptionFormatter, exc
+from apis.schemas import user
+from helpers.api_exceptions import ExceptionFormatter
 from database import crud, models
-from security import hashing
+from security.hashing import SecureHash
 
 
-@lru_cache()
-def get_settings():
-    '''Use the @lru_cache() decorator to create Settings object only once, instead of doing it for each request.
-    Learn more at https://fastapi.tiangolo.com/it/advanced/settings/#creating-the-settings-only-once-with-lru_cache'''
-    return settings
+async def verify_request_content(request: Request):
+    '''Ensure request content is JSON serializable.'''
+
+    try:
+        _json = await request.json()
+    except json.decoder.JSONDecodeError:
+        _json = None
+    return _json
 
 
-def authenticate_user(db: Session, item: schemas.UserUpdate):
+def authenticate_user(db: Session, item: user.UserUpdate):
     '''Ensure user is authenticated.'''
 
     user = crud.get_object(
@@ -30,13 +32,13 @@ def authenticate_user(db: Session, item: schemas.UserUpdate):
     if not user:
         raise ExceptionFormatter(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            message=exc.NOT_EMAIL
+            message='Invalid email.'
         )
 
-    if not hashing.verify_hash(item.password, user.hashed_password):
+    if not SecureHash.verify(item.password, user.hashed_password):
         raise ExceptionFormatter(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            message=exc.NOT_PASSWORD
+            message='Invalid password.'
         )
 
     return user

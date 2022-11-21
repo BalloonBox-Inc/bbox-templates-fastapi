@@ -3,12 +3,11 @@
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 
-from config import Settings
-from apis import schemas
-from apis.exceptions import ExceptionFormatter, exc
+from apis.schemas import user
 from database import crud, models
 from database.session import get_db
-from security import hashing, get_settings
+from helpers.api_exceptions import ExceptionFormatter
+from security.hashing import SecureHash
 
 
 router = APIRouter()
@@ -16,16 +15,14 @@ router = APIRouter()
 
 @router.post('/create', status_code=status.HTTP_200_OK)
 async def create_user(
-    item: schemas.UserCreate,
-    db: Session = Depends(get_db),
-    settings: Settings = Depends(get_settings)
-):  # pylint: disable=[W0613]
+    item: user.UserCreate,
+    db: Session = Depends(get_db)
+):
     '''
     Create a user and store to database.
 
         :param email [str]: User email.
         :param password [str]: User password.
-        :param blockchain [str]: The blockchain on which to create the user.
 
         :returns [dict]: User has successfully been created.
 
@@ -44,7 +41,7 @@ async def create_user(
     if user:
         raise ExceptionFormatter(
             status_code=status.HTTP_400_BAD_REQUEST,
-            message=exc.DB_EXISTING_OBJECT.format('Email')
+            message='Email already exists.'
         )
 
     # add user
@@ -52,8 +49,7 @@ async def create_user(
         db=db,
         object=models.UserTable(
             email=item.email,
-            hashed_password=hashing.generate_hash(item.password),
-            blockchain=item.blockchain,
+            hashed_password=SecureHash.create(item.password),
             is_active=True
         )
     )
