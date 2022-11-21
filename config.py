@@ -1,10 +1,10 @@
 '''This module configures application settings from config.yaml'''
 
-from helpers.lru_caching import timed_lru_cache
 from pyaml_env import parse_config
 from dotenv import load_dotenv
 
 from helpers.app_settings import AppSettings
+from helpers.lru_caching import timed_lru_cache
 from helpers.misc import format_db_url
 
 

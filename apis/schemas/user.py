@@ -1,7 +1,7 @@
 '''This module defines the HTTP request schemas for the FastAPI routers.'''
 
-from pydantic import BaseModel, EmailStr
 from datetime import date
+from pydantic import BaseModel, EmailStr
 
 
 class UserCreate(BaseModel):
