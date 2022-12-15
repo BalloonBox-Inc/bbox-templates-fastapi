@@ -1,8 +1,39 @@
 # FastAPI Template
 
+## Table of Contents
+
+- Introduction
+- Requirements
+- Installation
+- Usage
+- Directory Structure
+
+## Introduction
+
 This GitHub repo contains the template to initiate an application project using FastAPI. The application follows the principles of Object-oriented programming which aims modularity, reusability, easily upgradable and scalable.
 
+## Requirements
+
+Creating environment variables. Add more variables if needed.
+
+```bash
+# APPLICATION
+ENVIRONMENT=[str] # development | production
+
+# DATABASE
+DATABASE_URL=[str] # PostgreSQL database
+
+# SECURITY
+JWT_EXPIRE_MINUTES=[int] # It is recommended to be shorter than 5 minutes
+JWT_ALGORITHM=[str] # It is recommended to use one of the following: HS256 | RS256 | HS512 | RS512
+JWT_SECRET_KEY=[str] # To generate a secure random secret key use the command: openssl rand -hex <256 or 512 depending on algo used>
+```
+
+Learn how to set up environment variables on Github [here](https://adamtheautomator.com/github-actions-environment-variables/#Managing_Environment_Variables_via_GitHub_Actions_environment_variables_and_Secrets). This step is crutial for running tests without crashing.
+
 ## Installation
+
+Installing dependencies.
 
 ```python
 git clone https://github.com/BalloonBox-Inc/bbox-templates-fastapi.git # clone template to your project directory as a sub-directory
@@ -20,28 +51,9 @@ pre-commit install # install hooks
 
 Delete bbox-templates-fastapi sub-directory from your project since now it's empty.
 
-## Setup Environment
+## Development
 
-Create a `.env` file with the following and add more variables if needed.
-
-```bash
-# App
-ENVIRONMENT=[str] # development | production
-
-# Database
-DATABASE_URL=[str] # PostgreSQL database
-
-# Security
-JWT_EXPIRE_MINUTES=[int] # It is recommended to be shorter than 5 minutes
-JWT_ALGORITHM=[str] # It is recommended to use one of the following: HS256 | RS256 | HS512 | RS512
-JWT_SECRET_KEY=[str] # To generate a secure random secret key use the command: openssl rand -hex <256 or 512 depending on algo used>
-```
-
-Learn how to set up environment variables on Github [here](https://adamtheautomator.com/github-actions-environment-variables/#Managing_Environment_Variables_via_GitHub_Actions_environment_variables_and_Secrets). This step is crutial for running tests without crashing.
-
-## Developing
-
-Create your own APIs under `./apis/routers/**.py`. There are currently two API examples that can be used as guidance.
+Creating your own APIs. Build them under `./apis/routers/**.py`. There are currently two API examples that can be used as guidance.
 
 Remember to update the following files as appropriate:
 
@@ -51,6 +63,8 @@ Remember to update the following files as appropriate:
 ```
 
 ## Local Usage
+
+Running the application.
 
 ```python
 uvicorn main:app --reload
@@ -82,8 +96,7 @@ If have added new variables to the environment, please make sure to udpate the f
 ├── helpers
 │   ├── api_exceptions.py           # API exceptions settings
 │   ├── api_routers.py              # include API routers
-│   ├── app_settings.py             # application settings
-│   ├── app_throttling.py           # application throttling
+│   ├── api_throttling.py           # API throttling settings
 │   ├── http_requests.py            # HTTP requests settings and error handling
 │   ├── lru_caching.py              # LRU cache decorator settings
 │   └── misc.py                     # miscellaneous collection of unit functions

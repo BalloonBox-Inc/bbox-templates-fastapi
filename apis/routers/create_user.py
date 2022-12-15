@@ -6,7 +6,7 @@ from sqlalchemy.orm import Session
 from apis.schemas import user
 from database import crud, models
 from database.session import get_db
-from helpers.api_exceptions import ExceptionFormatter
+from helpers.api_exceptions import ResponseValidationError
 from security.hashing import SecureHash
 
 
@@ -39,7 +39,7 @@ async def create_user(
         value=item.email
     )
     if user:
-        raise ExceptionFormatter(
+        raise ResponseValidationError(
             status_code=status.HTTP_400_BAD_REQUEST,
             message='Email already exists.'
         )

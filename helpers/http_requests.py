@@ -6,7 +6,7 @@ from requests.adapters import HTTPAdapter
 from urllib3.util import Retry
 from fastapi import status
 
-from helpers.api_exceptions import ExceptionFormatter
+from helpers.api_exceptions import ResponseValidationError
 
 
 DEFAULT_TIMEOUT = 5  # seconds
@@ -52,27 +52,27 @@ def error_handler(func):
         try:
             return func(*args, **kwargs)
         except requests.exceptions.HTTPError as e:
-            return ExceptionFormatter(
+            return ResponseValidationError(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 message=str(e)
             )
         except requests.exceptions.ConnectionError as e:
-            return ExceptionFormatter(
+            return ResponseValidationError(
                 status_code=status.HTTP_404_NOT_FOUND,
                 message=str(e)
             )
         except requests.exceptions.Timeout as e:
-            return ExceptionFormatter(
+            return ResponseValidationError(
                 status_code=status.HTTP_408_REQUEST_TIMEOUT,
                 message=str(e)
             )
         except requests.exceptions.RetryError as e:
-            return ExceptionFormatter(
+            return ResponseValidationError(
                 status_code=status.HTTP_429_TOO_MANY_REQUESTS,
                 message=str(e)
             )
         except requests.exceptions.RequestException as e:
-            return ExceptionFormatter(
+            return ResponseValidationError(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 message=str(e)
             )
