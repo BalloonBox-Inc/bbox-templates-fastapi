@@ -5,7 +5,7 @@ from fastapi import Request, status
 from sqlalchemy.orm import Session
 
 from apis.schemas import user
-from helpers.api_exceptions import ExceptionFormatter
+from helpers.api_exceptions import ResponseValidationError
 from database import crud, models
 from security.hashing import SecureHash
 
@@ -30,13 +30,13 @@ def authenticate_user(db: Session, item: user.UserUpdate):
         value=item.email
     )
     if not user:
-        raise ExceptionFormatter(
+        raise ResponseValidationError(
             status_code=status.HTTP_401_UNAUTHORIZED,
             message='Invalid email.'
         )
 
     if not SecureHash.verify(item.password, user.hashed_password):
-        raise ExceptionFormatter(
+        raise ResponseValidationError(
             status_code=status.HTTP_401_UNAUTHORIZED,
             message='Invalid password.'
         )
