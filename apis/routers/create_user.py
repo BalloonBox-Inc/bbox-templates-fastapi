@@ -3,7 +3,7 @@
 from fastapi import APIRouter, Depends, status
 from sqlalchemy.orm import Session
 
-from apis.schemas import user
+from apis.schemas.user import CreateUserRequest, UserResponse
 from database import crud, models
 from database.session import get_db
 from helpers.api_exceptions import ResponseValidationError
@@ -13,9 +13,9 @@ from security.hashing import SecureHash
 router = APIRouter()
 
 
-@router.post('/create', status_code=status.HTTP_200_OK)
+@router.post('/create', status_code=status.HTTP_200_OK, response_model=UserResponse)
 async def create_user(
-    item: user.UserCreate,
+    item: CreateUserRequest,
     db: Session = Depends(get_db)
 ):
     '''
@@ -24,7 +24,7 @@ async def create_user(
         :param email [str]: User email.
         :param password [str]: User password.
 
-        :returns [dict]: User has successfully been created.
+        :returns [UserResponse]: User has successfully been created.
 
         :raises [HTTPException]:
             :[400] Bad request: Email object already exists.
@@ -54,6 +54,17 @@ async def create_user(
         )
     )
 
-    return dict(
-        message='User has successfully been created.'
+    # format response
+    user = crud.get_object(
+        db=db,
+        table=models.UserTable,
+        column=models.UserTable.email,
+        value=item.email
+    )
+
+    return UserResponse(
+        email=user.email,
+        isActive=user.is_active,
+        createdAt=user.created_at,
+        updatedAt=user.updated_at
     )
