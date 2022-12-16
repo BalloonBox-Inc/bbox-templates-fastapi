@@ -3,7 +3,7 @@
 from fastapi import APIRouter
 
 from apis.routers import admin_login, admin_mgmt
-# from apis.routers import create_user, update_user
+from apis.routers import create_user, update_user
 
 
 api_routers = APIRouter()
@@ -16,8 +16,8 @@ api_routers.include_router(admin_login.router, prefix=prefix, tags=tags, include
 api_routers.include_router(admin_mgmt.router, prefix=prefix, tags=tags, include_in_schema=admin_schema)
 
 
-# # User
-# prefix = '/user'  # pylint: disable=[C0103]
-# tags = ['User']
-# api_routers.include_router(create_user.router, prefix=prefix, tags=tags)
-# api_routers.include_router(update_user.router, prefix=prefix, tags=tags)
+# User
+prefix = '/user'  # pylint: disable=[C0103]
+tags = ['User']
+api_routers.include_router(create_user.router, prefix=prefix, tags=tags)
+api_routers.include_router(update_user.router, prefix=prefix, tags=tags)

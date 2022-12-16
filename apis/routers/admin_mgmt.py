@@ -1,9 +1,10 @@
 '''This module is part of the /admin FastAPI router.'''
 
 from fastapi import APIRouter, Depends, status
+from fastapi_pagination import Page, paginate
 from sqlalchemy.orm import Session
 
-from apis.schemas.admin import CreateAdmin, UpdateAdmin, AdminsResponse, AdminResponse
+from apis.schemas.admin import CreateAdminRequest, UpdateAdminRequest, AdminsResponse, AdminResponse
 from database import crud, models
 from database.session import get_db
 from security.admin import get_current_active_admin
@@ -14,7 +15,7 @@ from helpers.misc import objects_to_dict_list
 router = APIRouter(dependencies=[Depends(get_current_active_admin)])
 
 
-@router.get('', status_code=status.HTTP_200_OK, response_model=AdminsResponse)
+@router.get('', status_code=status.HTTP_200_OK, response_model=Page[AdminsResponse])
 async def retrieve_admins(
     db: Session = Depends(get_db)
 ):
@@ -35,15 +36,17 @@ async def retrieve_admins(
     admins = objects_to_dict_list(admin_objects)
     admins = [{k: v for k, v in d.items() if k in ['username', 'is_active', 'updated_at']} for d in admins]
 
-    return AdminsResponse(
-        message='Admins have successfully been found.',
-        data=admins
+    return paginate(
+        AdminsResponse(
+            message='Admins have successfully been found.',
+            data=admins
+        )
     )
 
 
 @router.post('/create', status_code=status.HTTP_200_OK, response_model=AdminResponse)
 async def add_admin(
-    item: CreateAdmin,
+    item: CreateAdminRequest,
     db: Session = Depends(get_db)
 ):
     '''
@@ -88,7 +91,7 @@ async def add_admin(
 
 @router.post('/update', status_code=status.HTTP_200_OK, response_model=AdminResponse)
 async def alter_admin_status(
-    item: UpdateAdmin,
+    item: UpdateAdminRequest,
     db: Session = Depends(get_db)
 ):
     '''

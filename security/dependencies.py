@@ -20,7 +20,7 @@ async def verify_request_content(request: Request):
     return _json
 
 
-def authenticate_user(db: Session, item: user.UserUpdate):
+def authenticate_user(db: Session, item: user.UpdateUserRequest):
     '''Ensure user is authenticated.'''
 
     user = crud.get_object(
