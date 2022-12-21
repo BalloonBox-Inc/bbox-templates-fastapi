@@ -5,8 +5,10 @@
 - Introduction
 - Requirements
 - Installation
-- Usage
+- Local Usage
+- API Specification
 - Directory Structure
+- Contributing
 
 ## Introduction
 
@@ -57,7 +59,7 @@ Creating your own APIs. Build them under `./apis/routers/**.py`. There are curre
 
 Remember to update the following files as appropriate:
 
-```basb
+```bash
 ./apis/middleware.py
 ./apis/schemas.py
 ```
@@ -70,9 +72,9 @@ Running the application.
 uvicorn main:app --reload
 ```
 
-## Contributing
+## API Specification
 
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change. Please make sure to update tests as appropriate.
+[Documentation](http://127.0.0.1:8000/redoc) and [test environment](http://127.0.0.1:8000/docs) are available while running locally. **Make sure to not be in the production environment.**
 
 ## Directory Structure
 
@@ -80,7 +82,7 @@ If have added new variables to the environment, please make sure to udpate the f
 
 ```bash
 .
-├── .github
+├── .github/workflows
 │   └── on_push.yaml                # GitHub actions executed whenever a push is made (quality and test checks)
 ├── .vscode
 │   └── settings.json               # VS Code setting preferences
@@ -120,3 +122,7 @@ If have added new variables to the environment, please make sure to udpate the f
 ├── README.md                       # this project guide
 ├── requirements.txt                # required Python libraries, modules, and packages to run and deploy the project
 ```
+
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change. Please make sure to update tests as appropriate.

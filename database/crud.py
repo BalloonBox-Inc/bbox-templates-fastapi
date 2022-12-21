@@ -3,6 +3,7 @@
 from typing import Any
 from fastapi import status
 from sqlalchemy.orm import Session
+from sqlalchemy.orm.decl_api import DeclarativeMeta
 from sqlalchemy.exc import SQLAlchemyError
 
 from helpers.api_exceptions import ResponseValidationError
@@ -10,8 +11,8 @@ from helpers.api_exceptions import ResponseValidationError
 
 def get_object(
     db: Session,
-    table: object,
-    column: object,
+    table: DeclarativeMeta,
+    column: DeclarativeMeta,
     value: Any,
     exc_status_code: status = status.HTTP_409_CONFLICT,
     exc_message: str = 'Unable to find object in the database.'
@@ -48,7 +49,7 @@ def get_object(
 
 def get_table(
     db: Session,
-    table: object,
+    table: DeclarativeMeta,
     exc_status_code: status = status.HTTP_409_CONFLICT,
     exc_message: str = 'Unable to find table in the database.'
 ):
@@ -82,7 +83,7 @@ def get_table(
 
 def create_object(
     db: Session,
-    object: object,
+    object: DeclarativeMeta,
     exc_status_code: status = status.HTTP_409_CONFLICT,
     exc_message: str = 'Unable to add object to the database.'
 ):
@@ -108,10 +109,38 @@ def create_object(
         db.close()
 
 
+def create_objects(
+    db: Session,
+    data: list,
+    exc_status_code: status = status.HTTP_409_CONFLICT,
+    exc_message: str = 'Unable to add objects to the database.'
+):
+    '''
+    Add multiple objects to the database.
+
+        :param db [generator]: Database session.
+        :param data [list[[orm]]: List of declarative base objects.
+        :param exc_status_code [int]: Exception HTTP status code.
+        :param exc_message [str]: Exception error message.
+    '''
+    try:
+        db.add_all(data)
+        db.commit()
+
+    except SQLAlchemyError as e:
+        db.rollback()
+        raise ResponseValidationError(
+            status_code=exc_status_code,
+            message=exc_message) from e
+
+    finally:
+        db.close()
+
+
 def update_object(
     db: Session,
-    table: object,
-    column: object,
+    table: DeclarativeMeta,
+    column: DeclarativeMeta,
     value: Any,
     object: dict,
     exc_status_code: status = status.HTTP_409_CONFLICT,
@@ -145,7 +174,7 @@ def update_object(
 
 def delete_object(
     db: Session,
-    object: object,
+    object: DeclarativeMeta,
     exc_status_code: status = status.HTTP_409_CONFLICT,
     exc_message: str = 'Unable to delete object from the database.'
 ):
@@ -159,6 +188,34 @@ def delete_object(
     '''
     try:
         db.delete(object)
+        db.commit()
+
+    except SQLAlchemyError as e:
+        db.rollback()
+        raise ResponseValidationError(
+            status_code=exc_status_code,
+            message=exc_message) from e
+
+    finally:
+        db.close()
+
+
+def delete_objects(
+    db: Session,
+    object: DeclarativeMeta,
+    exc_status_code: status = status.HTTP_409_CONFLICT,
+    exc_message: str = 'Unable to delete objects from the database.'
+):
+    '''
+    Delete all database objects.
+
+        :param db [generator]: Database session.
+        :param model [orm]: Declarative base object.
+        :param exc_status_code [int]: Exception HTTP status code.
+        :param exc_message [str]: Exception error message.
+    '''
+    try:
+        db.query(object).delete()
         db.commit()
 
     except SQLAlchemyError as e:
