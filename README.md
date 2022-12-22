@@ -88,8 +88,8 @@ If have added new variables to the environment, please make sure to udpate the f
 │   └── settings.json               # VS Code setting preferences
 ├── apis
 │   ├── routers/**.py               # [directory] multiple API routers, including webhooks
-│   ├── middleware.py               # API routers aggregator
-│   └── schemas.py                  # schemas used to validate received data and reformat it before sending back to the client/browser (http requests/responses)
+│   ├── schemas/**.py               # [directory] multiple API schemas (http request/response formats)
+│   └── middleware.py               # API routers aggregator
 ├── database
 │   ├── crud.py                     # Create, Read, Update, Delete (CRUD) operations to manage data elements of relational databases
 │   ├── models.py                   # database tables
