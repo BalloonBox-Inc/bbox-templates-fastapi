@@ -47,7 +47,7 @@ async def create_user(
     # add user
     crud.create_object(
         db=db,
-        object=models.UserTable(
+        data=models.UserTable(
             email=item.email,
             hashed_password=SecureHash.create(item.password),
             is_active=True

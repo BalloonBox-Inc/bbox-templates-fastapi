@@ -20,6 +20,6 @@ def setup_database():
     '''Insert initial data to the database.'''
     try:
         db = session.SessionLocal()
-        try_except(crud.create_object, db=db, object=ADMIN_MASTER)
+        try_except(crud.create_object, db=db, data=ADMIN_MASTER)
     finally:
         db.close()

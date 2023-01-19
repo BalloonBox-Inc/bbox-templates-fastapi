@@ -32,7 +32,7 @@ async def update_user(
         table=models.UserTable,
         column=models.UserTable.email,
         value=item.email,
-        object=dict(is_active=item.isActive)
+        data=dict(is_active=item.isActive)
     )
 
     # format response

@@ -68,7 +68,7 @@ async def add_admin(
     # add new admin to the database
     crud.create_object(
         db=db,
-        object=admin_object,
+        data=admin_object,
         exc_message='Unable to create admin.'
     )
 
@@ -109,7 +109,7 @@ async def alter_admin_status(
         table=models.AdminsTable,
         column=models.AdminsTable.username,
         value=item.username,
-        object=dict(is_active=item.is_active),
+        data=dict(is_active=item.is_active),
         exc_message='Unable to update admin.'
     )
 
