@@ -111,7 +111,7 @@ def create_object(
 
 def create_objects(
     db: Session,
-    data: list,
+    objects: list[DeclarativeMeta],
     exc_status_code: status = status.HTTP_409_CONFLICT,
     exc_message: str = 'Unable to add objects to the database.'
 ):
@@ -119,12 +119,12 @@ def create_objects(
     Add multiple objects to the database.
 
         :param db [generator]: Database session.
-        :param data [list[[orm]]: List of declarative base objects.
+        :param objects [list[[orm]]: List of declarative base objects.
         :param exc_status_code [int]: Exception HTTP status code.
         :param exc_message [str]: Exception error message.
     '''
     try:
-        db.add_all(data)
+        db.add_all(objects)
         db.commit()
 
     except SQLAlchemyError as e:
@@ -202,7 +202,7 @@ def delete_object(
 
 def delete_objects(
     db: Session,
-    object: DeclarativeMeta,
+    objects: list[DeclarativeMeta],
     exc_status_code: status = status.HTTP_409_CONFLICT,
     exc_message: str = 'Unable to delete objects from the database.'
 ):
@@ -210,12 +210,12 @@ def delete_objects(
     Delete all database objects.
 
         :param db [generator]: Database session.
-        :param model [orm]: Declarative base object.
+        :param objects [list[[orm]]: List of declarative base objects.
         :param exc_status_code [int]: Exception HTTP status code.
         :param exc_message [str]: Exception error message.
     '''
     try:
-        db.query(object).delete()
+        db.query(objects).delete()
         db.commit()
 
     except SQLAlchemyError as e:
