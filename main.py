@@ -8,6 +8,7 @@ from config import get_settings
 from apis.middleware import api_routers
 from database.startup import start_database
 from helpers.api_routers import APIRouters
+from helpers.api_cors import CrossOrigin
 from helpers.api_throttling import Throttling
 from helpers.api_exceptions import ResponseValidationError, request_exception_handler, response_exception_handler
 
